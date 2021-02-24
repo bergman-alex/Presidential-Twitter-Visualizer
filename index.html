@@ -4,28 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+  <script src="lib/Chart.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <title>Tweetyboi</title>
 </head>
 <body>
   <div class="container">
-    <canvas id="myChart"></canvas>
+    <canvas id="chart"></canvas>
   </div>
-  <script>
-    let myChart = document.getElementById('myChart').getContext('2d');
-
-    let tweetChart = new Chart(myChart,
-      {
-        type: 'bubble',
-        data: {
-          labels: [],
-          datasets: []
-        },
-        options: {
-
-        }
-    });
-  </script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
