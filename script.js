@@ -1,14 +1,11 @@
 createChart();
 
-const xlabels = [];
-const ylabels = [];
+const labels = [];
 
 async function getData()
 {
   const response = await fetch('testtweets.csv');
   const data = await response.text();
-  //console.log(data);
-
   const rows = data.split('\n').slice(1);
 
   rows.forEach(element =>
@@ -17,39 +14,42 @@ async function getData()
     const date = row[0];
     const likes = row[3];
 
-    xlabels.push(date);
-    ylabels.push(likes);
+    const point = new Point(row[0], row[3]);
 
-    //var dataArray = date.map((x, i) => ({x, y: likes[i]}));
+    labels.push(point);
   })
+}
+
+function Point(x, y)
+{
+  this.x = x;
+  this.y = y;
 }
 
 async function createChart()
 {
   await getData();
 
-  var timeFormat = 'YYYY-MM-DD HH:mm'
-  console.log(xlabels);
-
   var chart = document.getElementById('chart').getContext('2d');
   var myChart = new Chart(chart, {
-    type: 'line',
+    type: 'scatter',
     data: {
       datasets: [{
         label: 'Scatter Dataset',
-        data: [{x: xlabels, y: ylabels}]
+        data: labels,
+        pointBackgroundColor: '#ffecb8',
+        pointBorderColor: '#d9bc6c',
+        pointRadius: 5,
+        pointHoverBackgroundColor: '#b4ffb3',
+        pointHoverBorderColor: '#6ed96c',
+        pointHoverRadius: 10
       }]
     },
     options: {
       responsive: true,
       scales: {
         xAxes: [{
-          type: 'time',
-          time: {
-            displayFormats: {
-              quarter: timeFormat
-            }
-          }
+          type: 'linear'
         }]
       }
     }
