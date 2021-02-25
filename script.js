@@ -4,17 +4,17 @@ const labels = [];
 
 async function getData()
 {
-  const response = await fetch('testtweets.csv');
+  const response = await fetch('tweets.csv');
   const data = await response.text();
   const rows = data.split('\n').slice(1);
 
   rows.forEach(element =>
   {
     const row = element.split(',');
-    const date = row[0];
+    var date = row[0];
     const likes = row[3];
-
-    const point = new Point(row[0], row[3]);
+    var date = moment(date);
+    const point = new Point(date, row[3]);
 
     labels.push(point);
   })
@@ -42,15 +42,25 @@ async function createChart()
         pointRadius: 5,
         pointHoverBackgroundColor: '#b4ffb3',
         pointHoverBorderColor: '#6ed96c',
-        pointHoverRadius: 10
+        pointHoverRadius: 10,
+        showLine: false
       }]
     },
     options: {
       responsive: true,
-      scales: {
-        xAxes: [{
-          type: 'linear'
-        }]
+      scales: { xAxes: [{
+                  ticks:{
+                  userCallback: function(label, index, labels) {
+                          return moment(label).format("YYYY-MM-DD HH:mm");
+                          }
+                        }
+          }],
+          yAxes: [{
+              scaleLabel: {
+                  display:     true,
+                  labelString: 'Number of likes'
+              }
+          }]
       }
     }
   });
