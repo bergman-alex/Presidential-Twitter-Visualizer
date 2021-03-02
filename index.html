@@ -17,10 +17,11 @@
   <div class="container">
     <canvas id="chart"></canvas>
   </div>
-  <div>
-  <input type="button" value="Show Trump" onclick="restoreTrump()">
-  <input type="button" value="Hide Trump" onclick="removeTrump()">
-</div>
+  <div class="slidecontainer">
+    <input id="startDate" type="range" class="slider">
+    <input id="endDate" type="range" class="slider">
+    <p id="dateText"></p>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
