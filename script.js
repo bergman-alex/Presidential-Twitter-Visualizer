@@ -39,7 +39,8 @@ async function createChart()
   await getData('obamatweets.csv');
   await getData('trumptweets.csv');
   await getData('bidentweets.csv');
-
+  var minVal = moment("2007-01-01").unix();
+  var maxVal = moment("2012-01-01").unix();
   var chart = document.getElementById('chart').getContext('2d');
   var myChart = new Chart(chart, {
     type: 'scatter',
@@ -83,10 +84,12 @@ async function createChart()
          enabled: false
       },
       scales: { xAxes: [{
+
                   ticks:{
                     userCallback: function(label, index, labels) {
-                          return moment(label).format("YYYY-MM-DD HH:mm");
-                          }
+                           return moment(label).format("YYYY-MM-DD HH:mm");
+                    }
+
                   }
                 }],
                 yAxes:[{
@@ -96,34 +99,23 @@ async function createChart()
                           return Number(value.toString());//pass tick values as a string into Number function
                           }
                   },
-                afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
-                  chartObj.ticks = [];
-                  chartObj.ticks.push(1);
-                  chartObj.ticks.push(10);
-                  chartObj.ticks.push(100);
-                  chartObj.ticks.push(1000);
-                  chartObj.ticks.push(10000);
-                  chartObj.ticks.push(100000);
-                  chartObj.ticks.push(1000000);
-                  chartObj.ticks.push(5000000);
-                },
-                scaleLabel:{
-                  display:     true,
-                  labelString: 'Number of likes'
-                }
+                    afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
+                      chartObj.ticks = [];
+                      chartObj.ticks.push(1);
+                      chartObj.ticks.push(10);
+                      chartObj.ticks.push(100);
+                      chartObj.ticks.push(1000);
+                      chartObj.ticks.push(10000);
+                      chartObj.ticks.push(100000);
+                      chartObj.ticks.push(1000000);
+                      chartObj.ticks.push(5000000);
+                    },
+                    scaleLabel:{
+                      display:     true,
+                      labelString: 'Number of likes'
+                    }
                 }]
       }
     }
   });
 }
-/*
-function restoreTrump(){
-	      chart.data.datasets[1].data = trumpLabels;
-        chart.update();
-}
-
-function removeTrump() {
-        //chart.data.datasets[1].data = [];
-        console.log(myChart.chart.data.datasets[1].data);
-        chart.update();
-}*/
