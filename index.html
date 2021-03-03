@@ -8,9 +8,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <title>Tweetyboi</title>
@@ -18,6 +16,11 @@
 <body>
   <div class="container">
     <canvas id="chart"></canvas>
+  </div>
+  <div class="slidecontainer">
+    <input id="startDate" type="range" class="slider">
+    <input id="endDate" type="range" class="slider">
+    <p id="dateText"></p>
   </div>
   <script src="script.js"></script>
 </body>
