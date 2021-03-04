@@ -11,6 +11,7 @@ console.log("xMin = " + xMin + ", xMax = " + xMax);
 
 var myChart;
 
+// read items from .csv and push into labels
 async function getData(filename)
 {
   const response = await fetch('datasets/'.concat(filename));
@@ -35,6 +36,7 @@ async function getData(filename)
   })
 }
 
+// point constructor
 function Point(x, y)
 {
   this.x = x;
@@ -43,9 +45,27 @@ function Point(x, y)
 
 async function createChart()
 {
+  // load the datasets
   await getData('obamatweets.csv');
   await getData('trumptweets.csv');
   await getData('bidentweets.csv');
+
+  // don't draw points outside the min-max values of the chart
+  // https://stackoverflow.com/questions/40355519/how-do-i-hide-line-outside-the-min-max-scale-area-in-chartjs-2-0
+  Chart.plugins.register({
+    beforeDatasetsDraw: function(chartInstance) {
+        var ctx = chartInstance.chart.ctx;
+        var chartArea = chartInstance.chartArea;
+        ctx.save();
+        ctx.beginPath();
+
+        ctx.rect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+        ctx.clip();
+    },
+    afterDatasetsDraw: function(chartInstance) {
+        chartInstance.chart.ctx.restore();
+    },
+  });
 
   var chart = document.getElementById('chart').getContext('2d');
   myChart = new Chart(chart, {
@@ -111,10 +131,10 @@ async function createChart()
           type: 'logarithmic',
           ticks: {
             callback: function (value, index, values) {
-              return Number(value.toString());//pass tick values as a string into Number function
+              return Number(value.toString()); // pass tick values as a string into Number function
             }
           },
-          afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
+          afterBuildTicks: function (chartObj) { // build ticks labelling
             chartObj.ticks = [];
             chartObj.ticks.push(1);
             chartObj.ticks.push(10);
@@ -134,35 +154,6 @@ async function createChart()
     }
   });
 }
-
-var cleanOutPlugin = {
-
-    // We affect the `beforeInit` event
-    beforeInit: function(chart) {
-
-        // Replace `ticks.min` by `time.min` if it is a time-type chart
-        var min = chart.config.options.scales.xAxes[0].ticks.min;
-        // Same here with `ticks.max`
-        var max = chart.config.options.scales.xAxes[0].ticks.max;
-
-        var ticks = chart.config.data.labels;
-        var idxMin = ticks.indexOf(min);
-        var idxMax = ticks.indexOf(max);
-
-        // If one of the indexes doesn't exist, it is going to bug
-        // So we better stop the program until it goes further
-        if (idxMin == -1 || idxMax == -1)
-            return;
-
-        var data = chart.config.data.datasets[0].data;
-
-        // We remove the data and the labels that shouldn't be on the graph
-        data.splice(idxMax + 1, ticks.length - idxMax);
-        data.splice(0, idxMin);
-        ticks.splice(idxMax + 1, ticks.length - idxMax);
-        ticks.splice(0, idxMin);
-    }
-};
 
 // RANGE SLIDERS
 
