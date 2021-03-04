@@ -22,9 +22,10 @@ async function getData(filename)
   {
     const row = element.split(',');
     var date = row[0];
+    var text = row[1];
     const likes = row[3];
     var date = moment(date).unix();
-    const point = new Point(date, row[3]);
+    const point = new Point(date, likes, text);
 
     if(filename == 'obamatweets.csv'){
       obamaLabels.push(point);
@@ -37,10 +38,11 @@ async function getData(filename)
 }
 
 // point constructor
-function Point(x, y)
+function Point(x, y, z)
 {
   this.x = x;
   this.y = y;
+  this.z = z;
 }
 
 async function createChart()
@@ -77,8 +79,8 @@ async function createChart()
         backgroundColor: '#d5ffba',
         borderColor: '#89d15c',
         pointRadius: 2,
-        pointHoverBackgroundColor: '#b4ffb3',
-        pointHoverBorderColor: '#6ed96c',
+        pointHoverBackgroundColor: '#89d15c',
+        pointHoverBorderColor: '#89d15c',
         pointHoverRadius: 5,
         showLine: false
       },{
@@ -86,9 +88,9 @@ async function createChart()
         data: trumpLabels,
         backgroundColor: '#ffabab',
         borderColor: '#d44e4e',
+        pointHoverBackgroundColor: '#d44e4e',
+        pointHoverBorderColor: '#d44e4e',
         pointRadius: 2,
-        pointHoverBackgroundColor: '#b4ffb3',
-        pointHoverBorderColor: '#6ed96c',
         pointHoverRadius: 5,
         showLine: false
       },{
@@ -96,9 +98,9 @@ async function createChart()
         data: bidenLabels,
         backgroundColor: '#abb7ff',
         borderColor: '#4a5fd4',
+        pointHoverBackgroundColor: '#4a5fd4',
+        pointHoverBorderColor: '#4a5fd4',
         pointRadius: 2,
-        pointHoverBackgroundColor: '#b4ffb3',
-        pointHoverBorderColor: '#6ed96c',
         pointHoverRadius: 5,
         showLine: false
       }],
@@ -108,7 +110,22 @@ async function createChart()
       showLine: false, // turn off line between data points
       responsive: true,
       tooltips: {
-         enabled: false
+        callbacks: {
+          title: function(tooltipItem, data) {
+            var tooltipDate = moment.unix(data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].x).format("YYYY-MM-DD, HH:mm"); // get tweet date
+            var tooltipPresident = data.datasets[tooltipItem[0].datasetIndex].label; // get president
+            return tooltipPresident + " on " + tooltipDate;
+          },
+          label: function(tooltipItem, data) {
+            var tooltipTweet = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].z; // get tweet text
+            return tooltipTweet;
+          },
+          footer: function(tooltipItem, data) {
+            var tooltipLikes = data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].y; // get tweet likes
+            return "Likes: " + tooltipLikes;
+          }
+        },
+        bodyFontColor: '#8fccf2'
       },
       animation: {
         duration: 0 //turn off animations to improve performance with large datasets
