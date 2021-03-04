@@ -1,0 +1,22 @@
+.slider
+{
+  -webkit-appearance: none;
+  appearance: none;
+  background: #d3d3d3;
+  height: 8px;
+}
+
+.slider::-moz-range-thumb {
+  width: 8px;
+  height: 20px;
+  background: #000000;
+  border: #000000;
+}
+
+.slidecontainer
+{
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
