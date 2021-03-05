@@ -118,13 +118,33 @@ async function createChart()
           },
           label: function(tooltipItem, data) {
             var tooltipTweet = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].z; // get tweet text
-            return tooltipTweet;
+
+            if (tooltipTweet.length > 140 && tooltipTweet.length < 187)
+            {
+              var tweet1 = tooltipTweet.slice(0, 140);
+              var tweet2 = tooltipTweet.slice(140);
+
+              return [tweet1, tweet2];
+            }
+            else if (tooltipTweet.length >= 187)
+            {
+              var tweet1 = tooltipTweet.slice(0, 94);
+              var tweet2 = tooltipTweet.slice(94, 187);
+              var tweet3 = tooltipTweet.slice(187);
+
+              return [tweet1, tweet2, tweet3];
+            }
+            else
+            {
+              return tooltipTweet;
+            }
           },
           footer: function(tooltipItem, data) {
             var tooltipLikes = data.datasets[tooltipItem[0].datasetIndex].data[tooltipItem[0].index].y; // get tweet likes
             return "Likes: " + tooltipLikes;
           }
         },
+        displayColors: false,
         bodyFontColor: '#8fccf2'
       },
       animation: {
