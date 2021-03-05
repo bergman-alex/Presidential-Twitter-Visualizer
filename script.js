@@ -109,6 +109,18 @@ async function createChart()
     options: {
       showLine: false, // turn off line between data points
       responsive: true,
+      legend: {
+        display: true,
+        labels:{
+          fontColor: 'white'
+        }
+      },
+      title: {
+            display: true,
+            text: 'Presidential Twitter Visualizer',
+            fontColor: 'white',
+            fontSize: 32,
+        },
       tooltips: {
         callbacks: {
           title: function(tooltipItem, data) {
@@ -155,21 +167,30 @@ async function createChart()
       },
       responsiveAnimationDuration: 0,
       scales: {
+
         xAxes: [{
           ticks: {
+            fontColor: 'white',
             min: xMin,
             max: xMax,
             userCallback: function(label, index, labels) {
               return moment.unix(label).format("YYYY-MM-DD");
             }
+          },
+          gridLines: {
+            color: '#525354'
           }
         }],
         yAxes:[{
           type: 'logarithmic',
           ticks: {
+            fontColor: 'white',
             callback: function (value, index, values) {
               return Number(value.toString()); // pass tick values as a string into Number function
             }
+          },
+          gridLines: {
+            color: '#525354'
           },
           afterBuildTicks: function (chartObj) { // build ticks labelling
             chartObj.ticks = [];
