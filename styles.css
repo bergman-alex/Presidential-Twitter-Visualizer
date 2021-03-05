@@ -1,4 +1,4 @@
-.slider
+.slider /* Styling of the slider bar*/
 {
   -webkit-appearance: none;
   appearance: none;
@@ -6,14 +6,14 @@
   height: 8px;
 }
 
-.slider::-moz-range-thumb {
+.slider::-moz-range-thumb { /* Styling of slider handles*/
   width: 8px;
   height: 20px;
   background: #000000;
   border: #000000;
 }
 
-.slidecontainer
+.slidecontainer /* Styling of the slider div*/
 {
   margin: auto;
   width: 50%;
@@ -22,6 +22,6 @@
   color: white;
 }
 
-body{
+body{ /* Making the site dark*/
   background-color: #333333;
 }
